@@ -15,6 +15,27 @@ def sieve_of_Eratosthenes(n:int) -> list[int]:
             primes.append(p)
     return primes
 
+def getmask(n, i):
+    x, y = divmod(n, i)
+    return x, 1<<(i-y-1)
+
+def bitsieve(n:int, b:int) -> list[int]:
+    x, y = divmod(n, b)
+    primes = [2**b - 1]*(x+1)
+    primes[-1] ^= (1<<(b-y-1)) - 1
+    primes[0] ^= ((1<<(b-2)) | (1<<(b-1)))
+    for p in range(2, isqrt(n)+1):
+        x, y = getmask(p, b)
+        if (primes[x] & y):
+            for i in range(p**2, n+1, p):
+                x, y = getmask(i, b)
+                primes[x] = primes[x] & ~y
+    res = 0
+    for i in primes:
+        res += bin(i).count("1")
+    return res
+
+
 def naive_Sundaram(n: int) -> list[int]:
     primes = [2]
     k = (n - 2) // 2
