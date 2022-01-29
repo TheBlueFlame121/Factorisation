@@ -46,16 +46,8 @@ def sieve_of_Sundaram(n: int) -> list[int]:
             primes.append(2*i + 3)
     return primes
 
-def factor_erat(n:int) -> list[tuple]:
-    primes = sieve_of_Eratosthenes(n)
-    fac = []
-    for p in primes:
-        if n%p == 0:
-            fac.append((p, valuation(n, p)))
-    return fac
-
-def factor_sund(n:int) -> list[tuple]:
-    primes = sieve_of_Sundaram(n)
+def factor(n:int, sieve) -> list[tuple]:
+    primes = sieve(n)
     fac = []
     for p in primes:
         if n%p == 0:
