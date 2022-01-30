@@ -15,10 +15,22 @@ def sieve_of_Eratosthenes(n:int) -> list[int]:
             primes.append(p)
     return primes
 
+# Utility functions for the bitsieve
 def getmask(n, i):
     x, y = divmod(n, i)
     return x, 1<<(i-y-1)
 
+def int_to_primes(n, i, b):
+    res = []
+    offset = i*b
+    for i, j in enumerate(bin(n)[2:].zfill(b)):
+        if j=='1':
+            res.append(offset+i)
+    return res
+
+# Eratosthenes seive implemented using bits instead of booleans
+# Slightly slower but much more efficient memory wise
+# To account for slower speed I tried ctypes int32 but that was slower still
 def bitsieve(n:int, b:int) -> list[int]:
     x, y = divmod(n, b)
     primes = [2**b - 1]*(x+1)
@@ -30,12 +42,12 @@ def bitsieve(n:int, b:int) -> list[int]:
             for i in range(p**2, n+1, p):
                 x, y = getmask(i, b)
                 primes[x] = primes[x] & ~y
-    res = 0
-    for i in primes:
-        res += bin(i).count("1")
+    res = []
+    for i, j in enumerate(primes):
+        res += int_to_primes(j, i, b)
     return res
 
-
+# Dumbed down version of the Sundaram Sieve
 def naive_Sundaram(n: int) -> list[int]:
     primes = [2]
     k = (n - 2) // 2
@@ -50,6 +62,7 @@ def naive_Sundaram(n: int) -> list[int]:
             primes.append(2*i + 1)
     return primes
 
+# Actual Sundaram Sieve
 def sieve_of_Sundaram(n: int) -> list[int]:
     if n < 3:
         if n < 2: return []
