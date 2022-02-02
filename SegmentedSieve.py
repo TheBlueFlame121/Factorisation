@@ -21,7 +21,7 @@ def sieve_primes(n):
     # Find all primes n > prime > 2 using the Sieve of Eratosthenes 
     # For efficiency, track only odd numbers (evens are nonprime)
 
-    sieve = np.ones(n//2, dtype=np.bool) 
+    sieve = np.ones(n//2, dtype=np.bool_) 
     limit = isqrt(n) + 1 
 
     for i in range(3, limit, 2): 
@@ -29,7 +29,7 @@ def sieve_primes(n):
             sieve[i*i//2 :: i] = False
 
     prime_indexes = np.nonzero(sieve)[0][1::]
-    primes  = 2 * prime_indexes.astype(int) + 1 
+    primes  = 2 * prime_indexes.astype(np.int64) + 1 
     return primes
 
 
@@ -52,7 +52,7 @@ def seg_sieve_primes(seg_range):
     seg_end   = make_odd(seg_end,   -1)
     seg_len   = seg_end - seg_start + 1 
     sieve_len = (seg_len + 1) // 2      # only track odds; evens nonprime
-    sieve = np.ones(sieve_len, dtype=np.bool) 
+    sieve = np.ones(sieve_len, dtype=np.bool_) 
 
     # Find a short list of primes used to strike out non-primes in the segment
     root_limit = isqrt(seg_end) + 1 
