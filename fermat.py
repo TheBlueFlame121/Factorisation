@@ -15,4 +15,4 @@ def factor(n:int) ->list[tuple]:
     while isqrt(b2)**2 != b2:
         b2+= 2*a + 1
         a+=1
-    return facs + [(a-isqrt(b2),1), (a+isqrt(b),1)]
+    return facs + [(a-isqrt(b2),1), (a+isqrt(b2),1)]
