@@ -31,7 +31,7 @@ def int_to_primes(n, i, b):
 # Eratosthenes seive implemented using bits instead of booleans
 # Slightly slower but much more efficient memory wise
 # To account for slower speed I tried ctypes int32 but that was slower still
-def bitsieve(n:int, b:int) -> list[int]:
+def bitsieve(n:int, b:int=30) -> list[int]:
     x, y = divmod(n, b)
     primes = [2**b - 1]*(x+1)
     primes[-1] ^= (1<<(b-y-1)) - 1
@@ -48,6 +48,7 @@ def bitsieve(n:int, b:int) -> list[int]:
     return res
 
 # Dumbed down version of the Sundaram Sieve
+# https://en.wikipedia.org/wiki/Sieve_of_Sundaram
 def naive_Sundaram(n: int) -> list[int]:
     primes = [2]
     k = (n - 2) // 2
@@ -81,6 +82,7 @@ def sieve_of_Sundaram(n: int) -> list[int]:
     return primes
 
 # Algorithm from Wikipedia
+# https://en.wikipedia.org/wiki/Sieve_of_Atkin
 def sieve_of_Atkin(limit: int) -> list[int]:
     # Integers mod 60 with wheel 2/3/5
     # It's faster to just store them directly
@@ -150,7 +152,7 @@ def sieve_of_Atkin(limit: int) -> list[int]:
 
     return res
 
-def factor(n:int, sieve) -> list[tuple]:
+def factor_sieve(n:int, sieve) -> list[tuple]:
     primes = sieve(n)
     fac = []
     for p in primes:

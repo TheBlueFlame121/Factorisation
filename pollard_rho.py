@@ -3,7 +3,7 @@ from math import gcd
 
 # Pollard's rho factorisation using Brent's cycle detection method
 # Assumes n is semiprime
-def factor(n:int, funcs:int, iters:int):
+def factor_pollard_rho(n:int, funcs:int=5, iters:int=10000):
     for _ in range(funcs):
         c = randint(1, n-1)
         F = lambda x: (x*x + c) % n

@@ -4,7 +4,7 @@ from utils import valuation
 # Express n as difference of squares
 # Used mainly for semiprimes with factors close to each other
 # Complexity = 0(|p-q|) where n = p*q
-def factor(n:int) ->list[tuple]:
+def factor_fermat(n:int) ->list[tuple]:
     facs = []
     if n%2 == 0:
         k = valuation(n, 2)

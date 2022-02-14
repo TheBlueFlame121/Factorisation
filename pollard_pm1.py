@@ -8,7 +8,7 @@ from random import randint
 # Assumes input is semiprime
 # It's a probabilistic algorithm so it doesn't always succeed
 # Commented out lines are the naive approaches instead of the optimised ones
-def factor(n:int, B1:int, B2:int) -> list[tuple]:
+def factor_pm1(n:int, B1:int=10000, B2:int=25000) -> list[tuple]:
     primes = sieve_of_Eratosthenes(B2)
     ind = primes.index(prevprime(B1)) + 1
     small_primes, large_primes = primes[:ind], primes[ind:]
