@@ -152,7 +152,7 @@ def sieve_of_Atkin(limit: int) -> list[int]:
 
     return res
 
-def factor_sieve(n:int, sieve) -> list[tuple]:
+def factor_sieve(n:int, sieve) -> list[tuple[int, int]]:
     primes = sieve(n)
     fac = []
     for p in primes:
