@@ -1,3 +1,5 @@
+from math import isqrt
+
 def valuation(n:int, i:int) -> int:
     v = 0
     while n%i == 0:
@@ -12,3 +14,6 @@ def legendre_symbol(n:int, p:int) -> int:
         return 1
     else:
         return 0
+
+def is_square(n:int) -> bool:
+    return isqrt(n)**2 == n
