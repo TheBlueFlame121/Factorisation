@@ -1,14 +1,17 @@
 from utils import valuation
 from math import isqrt
+from numba import njit
 
+@njit
 def sieve_of_Eratosthenes(n:int) -> list[int]:
     nums = [True for i in range(n+1)]
     primes = []
     p = 2
     while (p**2 <= n):
         if (nums[p] == True):
-            for i in range(p**2, n+1, p):
-                nums[i] = False
+            nums[p**2::p] == [False] * ((n-p**2)//p + 1)
+            #  for i in range(p**2, n+1, p):
+                #  nums[i] = False
         p += 1
     for p in range(2, n+1):
         if nums[p]:
