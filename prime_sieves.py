@@ -87,73 +87,83 @@ def sieve_of_Sundaram(n: int) -> list[int]:
 # Algorithm from Wikipedia
 # https://en.wikipedia.org/wiki/Sieve_of_Atkin
 @njit
-def sieve_of_Atkin(limit: int) -> list[int]:
-    # Integers mod 60 with wheel 2/3/5
-    # It's faster to just store them directly
-    s = [1, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 49, 54, 59]
-
+def sieve_of_Atkin(limit:int) -> list[int]:
+    s = [1, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 49, 53, 59]
     primes = [False]*limit
-    for w in range(0, limit//60):
-        for x in s:
-            primes[60*w + x] = False
-
+    
+    n = 5
     x = 1
-    while x*x < limit:
+    while n < limit:
         y = 1
-        while y*y <= limit:
+        while n < limit:
+            if n%60 in [1, 13, 17, 29, 37, 41, 49, 53]:
+                primes[n] ^= True
+            y+=2
             n = 4*x*x + y*y
-            if n<limit and n%60 in [1, 13, 17, 29, 37, 41, 49, 53]:
-                primes[n]= primes[n]^True
-            y+=2
         x+=1
+        n = 4*x*x+1
 
+    n = 7
     x = 1
-    while x*x <= limit:
+    while n < limit:
         y = 2
-        while y*y < limit:
-            n = 3*x*x + y*y
-            if n<limit and n%60 in [7, 19, 31, 43]:
-                primes[n] = primes[n]^True
+        while n < limit:
+            if n%60 in [7, 19, 31, 43]:
+                primes[n] ^= True
             y+=2
+            n = 3*x*x + y*y
         x+=2
+        n = 3*x*x+4
 
-    x = 1
-    while x*x <= limit:
+    n = 11
+    x = 2
+    while n < limit:
         y = x-1
-        while y > 0:
-            n = 3*x*x - y*y
-            if n>0 and n<limit and n%60 in [11, 23, 47, 59]:
-                primes[n] = primes[n]^True
+        while n < limit:
+            if n%60 in [11, 23, 47, 59]:
+                primes[n] ^= True
             y-=2
+            n = 3*x*x - y*y
+            if y<1:
+                break
         x+=1
+        n = 2*x*x + 2*x -1
 
-    # This is what's mentioned of wikipedia but it lets some composites through
-    #  for n in [60*w + x for x in s for w in range(limit)]:
-    #      if n<7:
-    #          continue
-    #      if n*n > limit:
-    #          break
-    #      if primes[n]:
-    #          for c in [n*n*(60*w + x) for x in s for w in range(limit)]:
-    #              if c>limit:
-    #                  break
-    #              primes[c]=False
+    w = 0
+    n = 60*w
+    while n*n < limit:
+        for x in s:
+            n = 60*w + x
+            if n>=limit:
+                break
+            if n<7:
+                continue
+            if primes[n]:
+                w_ = 0
+                c = n*n*(60*w_)
+                while c < limit:
+                    for x_ in s:
+                        c = n*n*(60*w_ + x_)
+                        if c >=limit:
+                            break
+                        primes[c] = False
+                    w_ += 1
 
-    # Alternative implementation but less effective
-    r = 5
-    while r * r < limit:
-        if primes[r]:
-            for i in range(r * r, limit, r * r):
-                primes[i] = False
-        r += 1
+        w+=1
 
     res = [2, 3, 5]
-    n = 7
+    n = 0
+    w = 0
     while n < limit:
-        if primes[n]:
-            res.append(n)
-        n+=1
-
+        for x in s:
+            n = 60*w + x
+            if n>=limit:
+                break
+            if n<7:
+                continue
+            if primes[n]:
+                res.append(n)
+        w+=1
     return res
 
 def factor_sieve(n:int, sieve) -> list[tuple[int, int]]:
