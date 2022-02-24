@@ -9,7 +9,7 @@ def sieve_of_Eratosthenes(n:int) -> list[int]:
     p = 2
     while (p**2 <= n):
         if (nums[p] == True):
-            nums[p**2::p] == [False] * ((n-p**2)//p + 1)
+            nums[p**2::p] = [False] * ((n-p**2)//p + 1)
             #  for i in range(p**2, n+1, p):
                 #  nums[i] = False
         p += 1
@@ -86,6 +86,7 @@ def sieve_of_Sundaram(n: int) -> list[int]:
 
 # Algorithm from Wikipedia
 # https://en.wikipedia.org/wiki/Sieve_of_Atkin
+@njit
 def sieve_of_Atkin(limit: int) -> list[int]:
     # Integers mod 60 with wheel 2/3/5
     # It's faster to just store them directly
